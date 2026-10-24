@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reportar un incidente - Alerta Sicaya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tailwind.css">
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#14532d">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Alerta Sicaya">
+</head>
+<body class="min-h-screen">
+
+  <header class="bg-[var(--verde)] text-white border-b-4 border-[var(--maiz)] px-5 py-3 flex items-center gap-3">
+    <img src="img/logo-sicaya.png" alt="" class="h-11 w-auto rounded" onerror="this.style.display='none'">
+    <div class="mr-auto">
+      <h1 class="titulo text-lg font-extrabold leading-tight">Reportar un incidente</h1>
+      <p id="vecino" class="text-sm text-green-100"></p>
+    </div>
+    <a id="ir-comunidad" href="comunidad.html" class="rounded-lg bg-[var(--maiz)] px-3 py-1.5 text-sm font-semibold text-[var(--suelo)]" hidden>Alertas de la red</a>
+    <button id="salir" class="rounded-lg border border-green-200/60 px-3 py-1.5 text-sm font-semibold hover:bg-white/10">Salir</button>
+  </header>
+
+  <main class="max-w-md mx-auto px-5 py-6">
+
+    <form id="form" class="flex flex-col gap-6">
+      <p class="text-sm text-slate-700">Si hay peligro inmediato, ponte a salvo primero y luego envía el reporte.</p>
+
+      <fieldset class="flex flex-col gap-2">
+        <legend class="titulo text-lg font-bold mb-1">¿Qué está pasando?</legend>
+        <div class="grid grid-cols-2 gap-2">
+          <label><input type="radio" name="tipo" value="Robo" class="peer sr-only"><span class="block rounded-lg border-2 border-[#cbd5c8] bg-white p-3 text-center font-semibold peer-checked:border-[var(--verde)] peer-checked:bg-green-100 peer-focus-visible:outline peer-focus-visible:outline-4 peer-focus-visible:outline-[var(--maiz)]">Robo</span></label>
+          <label><input type="radio" name="tipo" value="Pelea o agresión" class="peer sr-only"><span class="block rounded-lg border-2 border-[#cbd5c8] bg-white p-3 text-center font-semibold peer-checked:border-[var(--verde)] peer-checked:bg-green-100 peer-focus-visible:outline peer-focus-visible:outline-4 peer-focus-visible:outline-[var(--maiz)]">Pelea o agresión</span></label>
+          <label><input type="radio" name="tipo" value="Persona fallecida" class="peer sr-only"><span class="block rounded-lg border-2 border-[#cbd5c8] bg-white p-3 text-center font-semibold peer-checked:border-[var(--verde)] peer-checked:bg-green-100 peer-focus-visible:outline peer-focus-visible:outline-4 peer-focus-visible:outline-[var(--maiz)]">Persona fallecida</span></label>
+          <label><input type="radio" name="tipo" value="Accidente o incendio" class="peer sr-only"><span class="block rounded-lg border-2 border-[#cbd5c8] bg-white p-3 text-center font-semibold peer-checked:border-[var(--verde)] peer-checked:bg-green-100 peer-focus-visible:outline peer-focus-visible:outline-4 peer-focus-visible:outline-[var(--maiz)]">Accidente o incendio</span></label>
+          <label class="col-span-2"><input type="radio" name="tipo" value="Actividad sospechosa" class="peer sr-only"><span class="block rounded-lg border-2 border-[#cbd5c8] bg-white p-3 text-center font-semibold peer-checked:border-[var(--verde)] peer-checked:bg-green-100 peer-focus-visible:outline peer-focus-visible:outline-4 peer-focus-visible:outline-[var(--maiz)]">Actividad sospechosa</span></label>
+        </div>
+      </fieldset>
+
+      <section class="flex flex-col gap-2">
+        <h2 class="titulo text-lg font-bold">Foto (opcional)</h2>
+        <input id="foto" type="file" accept="image/*" capture="environment" class="sr-only">
+        <label for="foto" class="rounded-lg border-2 border-dashed border-[var(--verde)] bg-white py-4 text-center font-semibold text-[var(--verde)] cursor-pointer">Tomar foto</label>
+        <img id="vista" alt="Vista previa de la foto" class="rounded-lg max-h-64 object-cover" hidden>
+      </section>
+
+      <label class="flex flex-col gap-1">
+        <span class="titulo text-lg font-bold">Cuenta en pocas palabras</span>
+        <textarea id="texto" rows="3" maxlength="200" class="campo" placeholder="Qué ves, dónde y si hay personas en peligro"></textarea>
+        <span id="contador" class="text-sm text-slate-600 self-end">0 / 200</span>
+      </label>
+
+      <section class="rounded-lg bg-white border-2 border-[#cbd5c8] p-4 flex flex-col gap-2">
+        <h2 class="titulo text-lg font-bold">Ubicación y hora</h2>
+        <p id="ubicacion" class="text-sm">Buscando tu ubicación...</p>
+        <p class="text-sm text-slate-600">La fecha y la hora se registran solas al enviar.</p>
+        <button type="button" id="reubicar" class="self-start rounded-lg border-2 border-[var(--verde)] px-3 py-1.5 text-sm font-semibold text-[var(--verde)]">Actualizar ubicación</button>
+      </section>
+
+      <div id="aviso" role="alert" class="rounded-lg bg-red-100 px-4 py-3 text-sm font-medium text-red-900" hidden></div>
+
+      <button type="submit" id="enviar" class="rounded-xl bg-[var(--rojo)] text-white titulo text-xl font-extrabold py-4 hover:brightness-110 disabled:opacity-60">Enviar reporte</button>
+    </form>
+
+    <section id="exito" class="flex flex-col gap-4 rounded-xl bg-green-100 p-6" hidden>
+      <h2 class="titulo text-2xl font-extrabold text-[var(--verde)]">Reporte enviado</h2>
+      <p id="exito-detalle" class="text-green-900"></p>
+      <button id="otro" class="rounded-lg bg-[var(--verde)] text-white font-semibold py-3">Enviar otro reporte</button>
+    </section>
+
+  </main>
+
+  <script type="module" src="js/reporte.js"></script>
+  <script type="module" src="js/pwa.js"></script>
+</body>
+</html>

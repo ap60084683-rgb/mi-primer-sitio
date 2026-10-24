@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel del serenazgo - Alerta Sicaya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tailwind.css">
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#14532d">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Alerta Sicaya">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
+</head>
+<body class="min-h-screen bg-[var(--suelo)] text-white">
+
+  <header class="bg-[var(--verde)] border-b-4 border-[var(--maiz)] px-5 py-3 flex items-center gap-4">
+    <img src="img/logo-sicaya.png" alt="" class="h-12 w-auto rounded" onerror="this.style.display='none'">
+    <div class="mr-auto">
+      <h1 class="titulo text-xl font-extrabold leading-tight">Central de monitoreo</h1>
+      <p class="text-sm text-green-100">Alerta Sicaya</p>
+    </div>
+    <button id="sonido" class="rounded-lg bg-[var(--maiz)] px-3 py-1.5 text-sm font-semibold text-[var(--suelo)]">Activar sonido</button>
+    <p id="operador" class="text-sm hidden sm:block"></p>
+    <button id="salir" class="rounded-lg border border-green-200/60 px-3 py-1.5 text-sm font-semibold hover:bg-white/10">Cerrar sesión</button>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-5 py-8 flex flex-col gap-8">
+
+    <section class="grid grid-cols-3 gap-3">
+      <div class="rounded-xl bg-[#13241b] border border-[#1f3a2b] p-4">
+        <p class="text-sm text-green-100/80">Nuevas</p>
+        <p id="n-nuevas" class="titulo text-4xl font-extrabold text-red-400">0</p>
+      </div>
+      <div class="rounded-xl bg-[#13241b] border border-[#1f3a2b] p-4">
+        <p class="text-sm text-green-100/80">En proceso</p>
+        <p id="n-proceso" class="titulo text-4xl font-extrabold text-[var(--maiz)]">0</p>
+      </div>
+      <div class="rounded-xl bg-[#13241b] border border-[#1f3a2b] p-4">
+        <p class="text-sm text-green-100/80">Resueltas</p>
+        <p id="n-resueltas" class="titulo text-4xl font-extrabold text-[var(--verde-vivo)]">0</p>
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="titulo text-2xl font-bold">Mapa en vivo</h2>
+      <div id="mapa" class="relative z-0 h-80 w-full overflow-hidden rounded-xl border border-[#1f3a2b] md:h-[26rem]"></div>
+      <h2 class="titulo text-2xl font-bold">Alertas</h2>
+      <ul id="alertas" class="flex flex-col gap-3"></ul>
+      <p id="sin-alertas" class="rounded-xl border border-dashed border-[#1f3a2b] p-6 text-green-100/80" hidden>
+        Sin alertas por ahora. Cuando un vecino envíe un reporte, aparecerá aquí al instante.
+      </p>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="titulo text-2xl font-bold">Solicitudes de vecinos</h2>
+      <p class="text-sm text-green-100/80">
+        <span id="n-pendientes" class="font-bold text-[var(--maiz)]">0</span> pendientes,
+        <span id="n-aprobados" class="font-bold text-[var(--verde-vivo)]">0</span> aprobados
+      </p>
+      <ul id="lista" class="flex flex-col gap-3"></ul>
+      <p id="vacio" class="rounded-xl border border-dashed border-[#1f3a2b] p-6 text-green-100/80" hidden>
+        No hay solicitudes pendientes. Cuando un vecino cree su cuenta, aparecerá aquí.
+      </p>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="titulo text-2xl font-bold">Vecinos con acceso</h2>
+      <ul id="vecinos" class="flex flex-col gap-3"></ul>
+    </section>
+
+  </main>
+
+  <div id="aviso-alerta" role="alert" class="fixed left-1/2 top-4 z-[2000] -translate-x-1/2 rounded-xl bg-[var(--rojo)] px-6 py-3 font-semibold text-white shadow-2xl" hidden></div>
+
+  <dialog id="visor" class="rounded-xl p-3 w-[92vw] max-w-3xl bg-[var(--suelo)] text-white backdrop:bg-black/70">
+    <img id="visor-img" alt="Foto enviada por el vecino" class="w-full max-h-[75vh] object-contain rounded-lg">
+    <button id="visor-cerrar" class="mt-3 rounded-lg bg-[var(--verde)] px-4 py-2 font-semibold">Cerrar</button>
+  </dialog>
+
+  <script type="module" src="js/panel.js"></script>
+  <script type="module" src="js/pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingresar - Alerta Sicaya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="img/hero.webp">
+  <link rel="stylesheet" href="css/tailwind.css">
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#14532d">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Alerta Sicaya">
+</head>
+<body class="relative min-h-screen overflow-x-hidden bg-[var(--suelo)] text-white"
+  style="background-image: linear-gradient(135deg, rgba(11,23,16,.93), rgba(20,83,45,.78)), url('img/hero.webp'), linear-gradient(135deg, #0b1710, #14532d); background-size: cover; background-position: center;">
+
+  <!-- Manchas de luz difuminadas -->
+  <div class="pointer-events-none absolute -left-24 top-10 h-96 w-96 rounded-full bg-green-500/25 blur-3xl"></div>
+  <div class="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-yellow-400/15 blur-3xl"></div>
+
+  <header class="relative z-10 mx-auto flex max-w-6xl items-center gap-6 px-5 py-5">
+    <a href="index.html" class="mr-auto flex items-center gap-3">
+      <img src="img/logo-sicaya.png" alt="" class="h-10 w-auto rounded" onerror="this.style.display='none'">
+      <span class="titulo text-xl font-extrabold">Alerta <span class="text-[var(--maiz)]">Sicaya</span></span>
+    </a>
+    <nav class="hidden gap-6 text-sm font-semibold md:flex">
+      <a href="index.html" class="hover:text-[var(--maiz)]">Inicio</a>
+      <a href="index.html#consejos" class="hover:text-[var(--maiz)]">Consejos</a>
+      <a href="index.html#contacto" class="hover:text-[var(--maiz)]">Contacto</a>
+    </nav>
+    <a href="#registro" id="ir-registro" class="rounded-full bg-white px-5 py-2 text-sm font-semibold text-[var(--verde)] hover:bg-green-50">Crear cuenta</a>
+  </header>
+
+  <main class="relative z-10 mx-auto grid max-w-6xl items-center gap-10 px-5 pb-12 pt-4 lg:min-h-[calc(100vh-96px)] lg:grid-cols-2">
+
+    <section class="text-center lg:text-left">
+      <img id="logo-lado" src="img/logo-sicaya.png" alt="Escudo del Distrito de Sicaya" class="mx-auto h-24 w-auto rounded-lg drop-shadow-[0_0_30px_rgba(34,197,94,0.45)] lg:mx-0 lg:h-44" onerror="this.style.display='none'">
+      <h1 class="titulo mt-6 text-4xl font-extrabold leading-tight lg:text-6xl">Tu barrio<br>te escucha.</h1>
+      <!-- Mascota: aparece sola cuando guardas la imagen como img/mascota.webp -->
+      <div class="relative mx-auto mt-4 w-56 lg:mx-0 lg:w-[22rem]">
+        <div class="flotar">
+          <img id="mascota-img" src="img/mascota.webp" alt="Mascota de Alerta Sicaya" class="w-full drop-shadow-[0_20px_40px_rgba(34,197,94,0.35)]" hidden
+            onload="this.hidden=false; document.getElementById('logo-lado').hidden=true;">
+        </div>
+      </div>
+      <ul class="mt-6 hidden flex-col gap-3 text-green-50 lg:flex">
+        <li class="flex items-center gap-3"><span class="h-2.5 w-2.5 rounded-full bg-[var(--maiz)]"></span>Tu reporte llega directo al serenazgo.</li>
+        <li class="flex items-center gap-3"><span class="h-2.5 w-2.5 rounded-full bg-[var(--maiz)]"></span>Tus datos se usan solo para atender emergencias.</li>
+        <li class="flex items-center gap-3"><span class="h-2.5 w-2.5 rounded-full bg-[var(--maiz)]"></span>Versión de prueba: usa datos de ejemplo.</li>
+      </ul>
+    </section>
+
+    <section class="entrada mx-auto w-full max-w-md rounded-3xl border border-white/25 bg-white/10 p-7 shadow-2xl backdrop-blur-xl">
+      <h2 class="titulo text-center text-3xl font-extrabold leading-tight">¡Hola!<br>Bienvenido</h2>
+
+      <div role="tablist" class="mt-6 grid grid-cols-2 gap-2 rounded-xl bg-black/25 p-1 text-white/80">
+        <button id="tab-ingresar" role="tab" aria-selected="true" class="rounded-lg py-2.5 font-semibold">Ingresar</button>
+        <button id="tab-registro" role="tab" aria-selected="false" class="rounded-lg py-2.5 font-semibold">Crear cuenta</button>
+      </div>
+
+      <div id="aviso" role="alert" class="mt-4" hidden></div>
+
+      <form id="form-ingresar" class="mt-5 flex flex-col gap-4">
+        <label class="flex flex-col gap-1 text-sm font-medium">Correo
+          <input id="in-correo" type="email" required autocomplete="email" class="campo !text-base text-[var(--texto)]" placeholder="tucorreo@ejemplo.com">
+        </label>
+        <label class="flex flex-col gap-1 text-sm font-medium">Contraseña
+          <span class="relative">
+            <input id="in-clave" type="password" required autocomplete="current-password" class="campo !pr-20 !text-base text-[var(--texto)]">
+            <button type="button" data-ver="in-clave" class="absolute inset-y-0 right-3 text-sm font-semibold text-[var(--verde)]">Ver</button>
+          </span>
+        </label>
+        <button type="button" id="olvide" class="self-end text-sm text-green-100 underline hover:text-white">¿Olvidaste tu contraseña?</button>
+        <button type="submit" class="rounded-xl bg-white py-3.5 font-semibold text-[var(--verde)] hover:bg-green-50">Ingresar</button>
+        <p class="rounded-lg bg-black/25 px-3 py-2 text-center text-sm">¿Emergencia ahora? Llama al <a href="tel:105" class="font-bold text-[var(--maiz)] underline">105</a></p>
+        <p class="text-center text-sm text-green-100">¿No tienes cuenta? <button type="button" data-ir="registro" class="font-semibold text-white underline">Crear cuenta</button></p>
+      </form>
+
+      <form id="form-registro" class="mt-5 flex max-h-[52vh] flex-col gap-4 overflow-y-auto pr-1" hidden>
+        <label class="flex flex-col gap-1 text-sm font-medium">Nombre completo
+          <input id="rg-nombre" type="text" required autocomplete="name" class="campo !text-base text-[var(--texto)]">
+        </label>
+        <label class="flex flex-col gap-1 text-sm font-medium">DNI
+          <input id="rg-dni" type="text" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" required class="campo !text-base text-[var(--texto)]">
+        </label>
+        <label class="flex flex-col gap-1 text-sm font-medium">Celular
+          <input id="rg-celular" type="tel" inputmode="numeric" pattern="9[0-9]{8}" title="9 dígitos, empieza con 9" maxlength="9" required autocomplete="tel" class="campo !text-base text-[var(--texto)]">
+        </label>
+        <label class="flex flex-col gap-1 text-sm font-medium">Sector o barrio
+          <select id="rg-sector" required class="campo !text-base text-[var(--texto)]">
+            <option value="">Elige tu sector</option>
+            <option>Plaza Principal</option>
+            <option>Barrio Centro</option>
+            <option>Anexo Mamac</option>
+            <option>Otro</option>
+          </select>
+        </label>
+        <label class="flex flex-col gap-1 text-sm font-medium">Fecha de nacimiento
+          <input id="rg-nacimiento" type="date" required class="campo !text-base text-[var(--texto)]">
+        </label>
+        <fieldset id="bloque-tutor" class="flex flex-col gap-4 rounded-xl border border-[var(--maiz)]/60 p-4" hidden>
+          <legend class="px-2 text-sm font-semibold text-[var(--maiz)]">Adulto responsable</legend>
+          <p class="text-sm text-green-50">Como eres menor de edad, un adulto debe autorizar tu cuenta. El serenazgo lo llamará para confirmarlo.</p>
+          <label class="flex flex-col gap-1 text-sm font-medium">Nombre del adulto
+            <input id="rg-tutor-nombre" type="text" class="campo !text-base text-[var(--texto)]">
+          </label>
+          <label class="flex flex-col gap-1 text-sm font-medium">Celular del adulto
+            <input id="rg-tutor-celular" type="tel" inputmode="numeric" pattern="9[0-9]{8}" title="9 dígitos, empieza con 9" maxlength="9" class="campo !text-base text-[var(--texto)]">
+          </label>
+        </fieldset>
+        <label class="flex flex-col gap-1 text-sm font-medium">Correo
+          <input id="rg-correo" type="email" required autocomplete="email" class="campo !text-base text-[var(--texto)]">
+        </label>
+        <label class="flex flex-col gap-1 text-sm font-medium">Contraseña (mínimo 8 caracteres)
+          <span class="relative">
+            <input id="rg-clave" type="password" minlength="8" required autocomplete="new-password" class="campo !pr-20 !text-base text-[var(--texto)]">
+            <button type="button" data-ver="rg-clave" class="absolute inset-y-0 right-3 text-sm font-semibold text-[var(--verde)]">Ver</button>
+          </span>
+        </label>
+        <label class="flex items-start gap-3 text-sm">
+          <input id="rg-acepto" type="checkbox" required class="mt-1 h-5 w-5 accent-[var(--maiz)]">
+          <span>Acepto que el serenazgo use mis datos (nombre, DNI, celular, fotos y ubicación) solo para atender emergencias en Sicaya.</span>
+        </label>
+        <button type="submit" class="rounded-xl bg-[var(--maiz)] py-3.5 font-semibold text-[var(--texto)] hover:brightness-105">Enviar solicitud</button>
+        <p class="text-center text-sm text-green-100">El serenazgo revisará tu solicitud antes de que puedas reportar.</p>
+        <p class="text-center text-sm text-green-100">¿Ya tienes cuenta? <button type="button" data-ir="ingresar" class="font-semibold text-white underline">Ingresar</button></p>
+      </form>
+    </section>
+
+  </main>
+
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/ingresar-ui.js"></script>
+  <script type="module" src="js/pwa.js"></script>
+</body>
+</html>
