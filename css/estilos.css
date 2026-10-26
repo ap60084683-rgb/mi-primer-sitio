@@ -1,0 +1,73 @@
+/* Alerta Sicaya - tokens de diseño
+   Verde = identidad y "resuelto" | Maíz = acento y "en proceso" | Rojo = SOLO emergencias */
+:root {
+  --verde: #14532d;
+  --verde-vivo: #22c55e;
+  --maiz: #facc15;
+  --rojo: #dc2626;
+  --suelo: #0b1710;   /* fondo del panel oscuro */
+  --papel: #f5f7f2;   /* fondo de páginas del vecino */
+  --texto: #12201a;
+}
+
+body {
+  font-family: "Figtree", system-ui, sans-serif;
+  background: var(--papel);
+  color: var(--texto);
+}
+
+.titulo { font-family: "Bricolage Grotesque", "Figtree", system-ui, sans-serif; }
+
+.campo {
+  width: 100%;
+  border: 2px solid #cbd5c8;
+  border-radius: 0.5rem;
+  padding: 0.7rem 0.85rem;
+  background: #fff;
+  font-size: 1rem;
+}
+.campo:focus { border-color: var(--verde); }
+
+:focus-visible { outline: 3px solid var(--maiz); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* Portada */
+.nav-solido { background: rgba(11, 23, 16, 0.95); backdrop-filter: blur(8px); }
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+/* Entrada de la tarjeta del login (solo CSS, no depende de JavaScript) */
+@keyframes entrada { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+.entrada { animation: entrada 0.6s ease both; }
+
+/* Que el atributo "hidden" siempre oculte, aunque el elemento tenga clases como "flex" */
+[hidden] { display: none !important; }
+
+/* Mascota del login: flota suavemente y se inclina con el mouse */
+@keyframes flotar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+.flotar { animation: flotar 4s ease-in-out infinite; }
+#mascota-img { transition: transform 0.15s ease-out; will-change: transform; }
+
+/* Aviso para instalar la app */
+.banner-instalar {
+  position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom));
+  z-index: 3000; display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+  max-width: 34rem; margin: 0 auto; padding: 14px 16px; border-radius: 14px;
+  background: #14532d; color: #fff; border: 2px solid #facc15;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); font-size: 0.95rem;
+}
+.banner-instalar p { flex: 1 1 200px; margin: 0; }
+.banner-instalar button { border: 0; border-radius: 10px; padding: 10px 16px; font-weight: 600; cursor: pointer; }
+.banner-instalar .principal { background: #facc15; color: #12201a; }
+.banner-instalar .secundario { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.5); }
+
+/* Pin del lugar del incidente (pantalla de reporte) */
+.pin-reporte {
+  width: 28px; height: 28px; background: #dc2626; border: 3px solid #fff;
+  border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
